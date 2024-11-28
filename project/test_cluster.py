@@ -7,8 +7,8 @@ from pyspark.sql import SparkSession
 spark = SparkSession.builder.appName("TestCluster").getOrCreate()
 
 # Test DataFrame
-data = [("Alice", 34), ("Bob", 45), ("Cathy", 29)]
-columns = ["Name", "Age"]
+data = [("Les Miserables", "Victor Hugo"), ("L'etranger", "Albert Camus"), ("Le Petit Prince", "Antoine de Saint-Exupéry")]
+columns = ["Book", "Author"]
 
 # Create a DataFrame
 df = spark.createDataFrame(data, columns)
@@ -17,6 +17,7 @@ df = spark.createDataFrame(data, columns)
 df.show()
 
 # Save DataFrame as a CSV to test write functionality
-df.write.csv("/tmp/test_output", header=True)
+df.write.csv("/tmp/test_output", header=True, mode="overwrite")
 
 print("Cluster and basic setup test completed!")
+
