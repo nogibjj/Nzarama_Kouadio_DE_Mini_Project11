@@ -63,7 +63,7 @@ This project demonstrates the creation of an **ETL (Extract, Transform, Load) pi
    - Run the notebook cells step by step.
 
 3. **Verify the Output**:
-   - Transformed data is saved to `/FileStore/tables/transformed_output`.
+   - Transformed data is saved to `dbfs:/FileStore/tables/nmk_43_pipeline/transformed_output`.
 
 # Proof of Pipeline Success 
 

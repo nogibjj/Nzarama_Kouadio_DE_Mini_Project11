@@ -80,9 +80,7 @@ def pipeline(spark, input_path, output_path):
 
 # Execute the Pipeline
 if __name__ == "__main__":
-    input_path = (
-        "/workspaces/Nzarama_Kouadio_DE_Mini_Project11/dataset/nba_games_stats.csv"
-    )
-    output_path = "./transformed_output"
+    input_path = "dbfs:/FileStore/tables/nmk_43_pipeline/nba_games_stats.csv"
+    output_path = "dbfs:/FileStore/tables/nmk_43_pipeline/transformed_output"
 
     pipeline(spark, input_path, output_path)
