@@ -1,4 +1,4 @@
-
+[![CI](https://github.com/nogibjj/Nzarama_Kouadio_DE_Mini_Project11/actions/workflows/cicd.yml/badge.svg)](https://github.com/nogibjj/Nzarama_Kouadio_DE_Mini_Project11/actions/workflows/cicd.yml)
 # Mini Project 11: Data Pipeline Using Databricks
 
 # Project Overview
