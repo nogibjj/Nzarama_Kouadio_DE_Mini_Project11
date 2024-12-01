@@ -29,8 +29,7 @@ def load_data(spark, local_path):
 
     return df
 
-# Perform Transformations
-# First Transformation: Creating a winner column for each game and calculating the point difference
+# Perform Transformation: Creating a winner column for each game and calculating the point difference
 def transform_data(df):
     """
     Add a winner column to the DataFrame.
