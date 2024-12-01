@@ -31,7 +31,7 @@ def load_data(spark, local_path):
 
 # Perform Transformations
 # First Transformation: Creating a winner column for each game and calculating the point difference
-def declare_winner(df):
+def transform_data(df):
     """
     Add a winner column to the DataFrame.
     """
@@ -50,44 +50,28 @@ def declare_winner(df):
         "Winner",
     ).limit(10)
     return winner_sample
+    
+# Function: Write to Data Sink
+def write_data(df, output_path):
+    """Save the transformed DataFrame to a CSV file."""
+    df.write.csv(output_path, header=True, mode="overwrite")
+    print(f"Transformed data saved to {output_path}")
 
-# Second Transformation: Calculate the Games Played by Each Team
-def calculate_games(df):
-    """
-    Calculate the total games played by each team.
-    """
-    df = df.withColumn("HomeGame", when(df["Home"] == "Home", 1).otherwise(0))
-    df = df.withColumn("AwayGame", when(df["Home"] == "Away", 1).otherwise(0))
+# Define the Pipeline
+def pipeline(spark, input_path, output_path):
+    """End-to-end data pipeline."""
+    # Step 1: Load data
+    df = load_data(spark, input_path)
 
-    total_games = df.groupBy("Team").agg(
-        sum("HomeGame").alias("HomeGames"),
-        sum("AwayGame").alias("AwayGames"),
-        (sum("HomeGame") + sum("AwayGame")).alias("TotalGames"),
-    )
+    # Step 2: Transform data
+    df_transformed = transform_data(df)
 
-    games_summary_df = total_games.select(
-        "Team", "HomeGames", "AwayGames", "TotalGames"
-    ).orderBy("TotalGames", ascending=False)
+    # Step 3: Write data to sink
+    write_data(df_transformed, output_path)
 
-    return games_summary_df
-
-# Main Execution
+# Execute the Pipeline
 if __name__ == "__main__":
-    # Load the data
-    local_path = "/workspaces/Nzarama_Kouadio_DE_Mini_Project11/dataset/nba_games_stats.csv"
-    df = load_data(spark, local_path)
+    input_path = "/workspaces/Nzarama_Kouadio_DE_Mini_Project11/dataset/nba_games_stats.csv"
+    output_path = "./transformed_output"
 
-    # Apply transformations
-    winner_sample = declare_winner(df)
-    games_summary = calculate_games(df)
-
-    # Show results
-    print("Winner Transformation Sample:")
-    winner_sample.show()
-
-    print("Games Summary:")
-    games_summary.show()
-
-    # Save Transformed Data
-    df.write.csv("./transformed_output", header=True, mode="overwrite")
-    print("Transformed data saved to ./transformed_output")
+    pipeline(spark, input_path, output_path)
