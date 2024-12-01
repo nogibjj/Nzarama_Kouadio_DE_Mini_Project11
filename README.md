@@ -18,7 +18,7 @@ This project demonstrates the creation of an **ETL (Extract, Transform, Load) pi
 ## **1. Extract**
 - **Description**: Data is extracted from the CSV file `nba_games_stats.csv`.
 - **Implementation**: The file is read into a Spark DataFrame using the `spark.read.csv()` function.
-- **File Location**: `/FileStore/tables/nba_games_stats.csv`.
+- **File Location**: `dbfs:/FileStore/tables/nmk_43_pipeline/nba_games_stats.csv`.
 
 ## **2. Transform**
 - **Description**: The extracted data undergoes the following transformations:
@@ -29,7 +29,7 @@ This project demonstrates the creation of an **ETL (Extract, Transform, Load) pi
 
 ## **3. Load**
 - **Description**: The transformed data is saved as a CSV file to the Databricks FileStore for further use.
-- **File Location**: `/FileStore/tables/transformed_output`.
+- **File Location**: `dbfs:/FileStore/tables/nmk_43_pipeline/transformed_output`.
 
 # Project Structure
 
@@ -65,50 +65,13 @@ This project demonstrates the creation of an **ETL (Extract, Transform, Load) pi
 3. **Verify the Output**:
    - Transformed data is saved to `/FileStore/tables/transformed_output`.
 
-# Code Implementation
+# Proof of Pipeline Success 
 
-### **Extract**
-```python
-def load_data(spark, file_path):
-    df = spark.read.csv(file_path, header=True, inferSchema=True)
-    # Clean column names
-    for column_name in df.columns:
-        new_col_name = re.sub(r"[^a-zA-Z0-9_]", "", column_name)
-        df = df.withColumnRenamed(column_name, new_col_name)
-    return df
-```
+1. Proof of script running smoothly and file being saved 
+[Success Run](/workspaces/Nzarama_Kouadio_DE_Mini_Project11/Pic_Proof/run_success.png)
 
-### **Transform**
-```python
-def transform_data(df):
-    df = df.withColumn("PointDifference", df["TeamPoints"] - df["OpponentPoints"])
-    df = df.withColumn(
-        "Winner", when(df["PointDifference"] > 0, df["Team"]).otherwise(df["Opponent"])
-    )
-    df = df.withColumn("HomeGame", when(df["Home"] == "Home", 1).otherwise(0))
-    df = df.withColumn("AwayGame", when(df["Home"] == "Away", 1).otherwise(0))
-    return df
-```
-
-### **Load**
-```python
-def write_data(df, output_path):
-    df.write.csv(output_path, header=True, mode="overwrite")
-    print(f"Transformed data saved to {output_path}")
-```
-
-### **Pipeline**
-```python
-def pipeline(spark, input_path, output_path):
-    df = load_data(spark, input_path)
-    df_transformed = transform_data(df)
-    write_data(df_transformed, output_path)
-```
-
-
-# Output Examples
-
-
+2. Proof of storage
+[Storage Success](/workspaces/Nzarama_Kouadio_DE_Mini_Project11/Pic_Proof/storage.png)
 
 # Cluster Settings
 - **Cluster Name**: Nzarama Kouadio's Cluster
