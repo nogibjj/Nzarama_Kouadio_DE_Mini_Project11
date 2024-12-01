@@ -68,10 +68,10 @@ This project demonstrates the creation of an **ETL (Extract, Transform, Load) pi
 # Proof of Pipeline Success 
 
 1. Proof of script running smoothly and file being saved 
-[Success Run](/workspaces/Nzarama_Kouadio_DE_Mini_Project11/Pic_Proof/run_success.png)
+[Success Run](Pic_Proof/run_success.png)
 
 2. Proof of storage
-[Storage Success](/workspaces/Nzarama_Kouadio_DE_Mini_Project11/Pic_Proof/storage.png)
+[Storage Success](Pic_Proof/storage.png)
 
 # Cluster Settings
 - **Cluster Name**: Nzarama Kouadio's Cluster
