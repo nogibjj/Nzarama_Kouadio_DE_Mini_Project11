@@ -1,4 +1,5 @@
-# Nzarama_Kouadio_DE_Mini_Project11
+
+# Mini Project 11: Data Pipeline Using Databricks
 
 # Project Overview
 
@@ -39,7 +40,6 @@ This project demonstrates the creation of an **ETL (Extract, Transform, Load) pi
 │   └── nba_games_stats.csv      # Data source: basketball game statistics
 ├── project/
 │   ├── pipeline.py              # Main ETL pipeline script
-│   ├── test_cluster.py          # Test script for Databricks cluster setup
 │   └── transformed_output/      # Folder for processed data output
 ├── README.md                    # Project documentation
 ├── Makefile                     # Makefile for CI/CD or setup tasks
