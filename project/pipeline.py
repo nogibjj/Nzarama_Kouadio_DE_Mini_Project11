@@ -1,5 +1,5 @@
 from pyspark.sql import SparkSession
-from pyspark.sql.functions import when, col, sum
+from pyspark.sql.functions import when  # Removed unused imports (col, sum)
 import re
 
 # Initialize Spark session
@@ -13,7 +13,7 @@ def load_data(spark, local_path):
     df = spark.read.csv(local_path, header=True, inferSchema=True)
 
     # Clean column names
-    for column_name in df.columns:
+    for column_name in df.columns:  # Renamed loop variable to avoid shadowing `col`
         new_col_name = re.sub(r"[^a-zA-Z0-9_]", "", column_name)
         df = df.withColumnRenamed(column_name, new_col_name)
 
@@ -29,6 +29,7 @@ def load_data(spark, local_path):
 
     return df
 
+
 # Perform Transformation: Creating a winner column for each game and calculating the point difference
 def transform_data(df):
     """
@@ -39,6 +40,7 @@ def transform_data(df):
         "Winner", when(df["PointDifference"] > 0, df["Team"]).otherwise(df["Opponent"])
     )
 
+    # Add a sample to view results
     winner_sample = df.select(
         "Game",
         "Team",
@@ -48,17 +50,24 @@ def transform_data(df):
         "PointDifference",
         "Winner",
     ).limit(10)
+
     return winner_sample
-    
+
+
 # Function: Write to Data Sink
 def write_data(df, output_path):
-    """Save the transformed DataFrame to a CSV file."""
+    """
+    Save the transformed DataFrame to a CSV file.
+    """
     df.write.csv(output_path, header=True, mode="overwrite")
     print(f"Transformed data saved to {output_path}")
 
+
 # Define the Pipeline
 def pipeline(spark, input_path, output_path):
-    """End-to-end data pipeline."""
+    """
+    End-to-end data pipeline.
+    """
     # Step 1: Load data
     df = load_data(spark, input_path)
 
@@ -68,9 +77,12 @@ def pipeline(spark, input_path, output_path):
     # Step 3: Write data to sink
     write_data(df_transformed, output_path)
 
+
 # Execute the Pipeline
 if __name__ == "__main__":
-    input_path = "/workspaces/Nzarama_Kouadio_DE_Mini_Project11/dataset/nba_games_stats.csv"
+    input_path = (
+        "/workspaces/Nzarama_Kouadio_DE_Mini_Project11/dataset/nba_games_stats.csv"
+    )
     output_path = "./transformed_output"
 
     pipeline(spark, input_path, output_path)

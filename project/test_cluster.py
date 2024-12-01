@@ -4,7 +4,11 @@ from pyspark.sql import SparkSession
 spark = SparkSession.builder.appName("TestCluster").getOrCreate()
 
 # Read the CSV file as the data source
-df = spark.read.csv("/workspaces/Nzarama_Kouadio_DE_Mini_Project11/dataset/nba_games_stats.csv", header=True, inferSchema=True)
+df = spark.read.csv(
+    "/workspaces/Nzarama_Kouadio_DE_Mini_Project11/dataset/nba_games_stats.csv",
+    header=True,
+    inferSchema=True,
+)
 
 # Show the DataFrame to verify
 df.show()
@@ -13,4 +17,3 @@ df.show()
 df.write.csv("./test_cluster_output", header=True, mode="overwrite")
 
 print("Cluster and basic setup test completed!")
-
